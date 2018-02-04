@@ -9,6 +9,7 @@ name = "pypi"
 
 pillow = "*"
 psd-tools = "*"
+peewee = "*"
 
 
 [dev-packages]
