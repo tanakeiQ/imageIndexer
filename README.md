@@ -1,3 +1,6 @@
+![Python](https://img.shields.io/badge/Python-3.x-blue.svg "Python 3.x")
+![MIT](https://img.shields.io/badge/License-MIT-green.svg "MIT License")
+
 `imageIndexer` is index Huge Image reources and view by HTML.
 
 We will be able to organize huge resources and live a stress-free life😼 😼
