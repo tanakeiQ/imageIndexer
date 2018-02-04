@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "7ba607b290d8d40eb1ffe3a84bae056745875271c31ed8913262c2285e38df6c"
+            "sha256": "b4cf62fa08c2c4d9244a0b8ae21b6366bef90b0f65612c0ad0ae1587b54618c4"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -29,6 +29,12 @@
         ]
     },
     "default": {
+        "bottle": {
+            "hashes": [
+                "sha256:39b751aee0b167be8dffb63ca81b735bbf1dd0905b3bc42761efedee8f123355"
+            ],
+            "version": "==0.12.13"
+        },
         "docopt": {
             "hashes": [
                 "sha256:49b3a825280bd66b3aa83585ef59c4a8c82f2c8a522dbe754a8bc8d08c85c491"
@@ -37,9 +43,9 @@
         },
         "peewee": {
             "hashes": [
-                "sha256:4fc4c76d055aeabaf9db49bcc2831dab14f38a1ec20441733a52d28b2b9a8ddd"
+                "sha256:13c27d393fee89b121b70f073daaad709bb67a04a252abd7c914bd93d9ba847b"
             ],
-            "version": "==3.0.10"
+            "version": "==3.0.11"
         },
         "pillow": {
             "hashes": [

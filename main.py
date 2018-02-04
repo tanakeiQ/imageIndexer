@@ -10,7 +10,7 @@
 # 
 # Created by tanakeiQ<tanakei@suitehearts.co>
 
-import os, sys, uuid, csv, atexit
+import os, sys, uuid, atexit, json
 from distutils.spawn import find_executable
 
 # meta resources
@@ -21,13 +21,13 @@ image_magick_path=find_executable('convert')
 
 # Target resources
 # image resources directory
-input_dir='%s/resources' % (os.getcwd())
+input_dir='%s/debug/resources' % (os.getcwd())
 # output file extension(don't forget dor(.))
 output_ext='png'
 # output thumbnail directory
-output_thumb_dir='%s/output/thumb' % (os.getcwd())
-# ouput csv directory
-output_csv_path='%s/output/_map.csv' % (os.getcwd())
+output_thumb_dir='%s/debug/output/thumb' % (os.getcwd())
+# ouput json directory
+output_json_path='%s/debug/output/_map.json' % (os.getcwd())
 # If applied script into symbolic link, set `True`
 isEnableSym=False
 # Is customize script, modify avairable file format.
@@ -62,9 +62,8 @@ cmd_font='%s -font "%s" -pointsize %s label:"%s" -resize %dx%d -quality %d %s'
 
 
 def writeCsv():
-	with open(output_csv_path, 'w') as f:
-		writer = csv.writer(f, lineterminator='\n')
-		writer.writerows(filemap)
+	with open(output_json_path, 'w') as f:
+		json.dump(filemap, f)
 
 def convert(path, filename):
 	cmd=''
@@ -89,7 +88,15 @@ def convert(path, filename):
 		# print(cmd)
 		os.system(cmd)
 		# Filename, File path, Extension, Thumbnail path, File size, width, height
-		data=[name, ext, path, output_filename,os.path.getsize(path), 0, 0]
+		data= {
+			"name": name, 
+			"ext": ext, 
+			"path": path,
+			"filename": output_filename,
+			"size": os.path.getsize(path),
+			"w": 0,
+			"h": 0
+		}
 		filemap.append(data)
 	except:	
 		print('❌  Filed to convert: %s' % (path))
