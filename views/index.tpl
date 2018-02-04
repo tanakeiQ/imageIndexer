@@ -7,6 +7,19 @@
             <title>
                 TEST
             </title>
+            <style>
+              body {
+                margin-top: 100px;
+                margin-bottom: 100px;
+              }
+              #grid {
+                  width: 90%;
+                  margin: 0 auto;
+              }
+              form {
+                text-align: center;
+              }
+            </style>
         </meta>
     </head>
     <body>
@@ -29,6 +42,7 @@
 
       hot = new Handsontable(grid, {
           data: data,
+          stretchH: "all",
           colHeaders: ['サムネイル', 'ファイル名', '拡張子', 'ファイルパス', 'ファイルサイズ', 'width', 'height'],
           columns: [{
               data: "filename",
