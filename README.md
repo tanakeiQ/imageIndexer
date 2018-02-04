@@ -67,6 +67,11 @@ https://www.imagemagick.org/script/convert.php
 $ python main.py
 ```
 
+## View data on Bottle
+```bash
+$ pipenv run python server.py
+```
+
 # Feature
 - Check resources by auto generated HTML.
 - Compare images diff by hash.
