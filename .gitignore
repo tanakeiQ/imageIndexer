@@ -102,3 +102,4 @@ ENV/
 
 debug
 .DS_Store
+*.sublime-workspace
