@@ -3,12 +3,20 @@
 # 
 # Created by tanakeiQ<tanakei@suitehearts.co>
 # 
-import json
+import json, bottle
 from bottle import run, route, template, static_file
+
+app = bottle.default_app()
+app.config.load_config([
+	'config/resource.ini',
+	'config/server.ini'
+])
+
+print(app.config)
 
 @route('/')
 def index():
-	f = open('debug/output/_map.json', 'r')
+	f = open(app.config['resource.map_path'], 'r')
 	reader =  json.load(f)
 	data = "{}".format(json.dumps(reader))
 	f.close()
@@ -16,7 +24,7 @@ def index():
 
 @route('/static/thumb/<filename>')
 def server_static(filename):
-    return static_file(filename, root='debug/output/thumb')
+    return static_file(filename, root=app.config['resource.static_path'])
 
 
-run(host='localhost', port=8080, debug=True)
+run(host=app.config['server.host'], port=app.config['server.port'], debug=app.config['server.is_debug'])
