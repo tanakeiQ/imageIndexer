@@ -15,6 +15,7 @@ import sys
 import uuid
 import atexit
 import json
+import hashlib
 from distutils.spawn import find_executable
 
 # meta resources
@@ -65,6 +66,12 @@ NOPQRSTUVWXYZ
 此れは漢字'''
 cmd_font = '%s -font "%s" -pointsize %s label:"%s" -resize %dx%d -quality %d %s'
 
+def md5(fname):
+    hash_md5 = hashlib.md5()
+    with open(fname, "rb") as f:
+        for chunk in iter(lambda: f.read(4096), b""):
+            hash_md5.update(chunk)
+    return hash_md5.hexdigest()
 
 def writeCsv():
     with open(output_json_path, 'w') as f:
@@ -100,6 +107,7 @@ def convert(path, filename):
         # Filename, File path, Extension, Thumbnail path, File size, width,
         # height
         data = {
+            "uid": md5(path),
             "name": name,
             "ext": ext,
             "path": path,
@@ -108,6 +116,7 @@ def convert(path, filename):
             "w": 0,
             "h": 0
         }
+        print(data)
         filemap.append(data)
     except:
         print('❌  Filed to convert: %s' % (path))
@@ -145,5 +154,5 @@ if __name__ == '__main__':
         if not os.path.exists(input_dir):
             sys.stderr.write('❌  No such directory: %s')
         print('Use convert<%s>' % (image_magick_path))
-        atexit.register(writeCsv)
+        # atexit.register(writeCsv)
         rSearch(input_dir)
