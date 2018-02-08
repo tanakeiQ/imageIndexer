@@ -16,6 +16,7 @@ import uuid
 import atexit
 import json
 import hashlib
+import models
 from distutils.spawn import find_executable
 
 # meta resources
@@ -73,9 +74,8 @@ def md5(fname):
             hash_md5.update(chunk)
     return hash_md5.hexdigest()
 
-def writeCsv():
-    with open(output_json_path, 'w') as f:
-        json.dump(filemap, f)
+def close():
+    models.close()
 
 
 def convert(path, filename):
@@ -113,13 +113,12 @@ def convert(path, filename):
             "path": path,
             "filename": output_filename,
             "size": os.path.getsize(path),
-            "w": 0,
-            "h": 0
+            "width": 0,
+            "height": 0
         }
-        print(data)
-        filemap.append(data)
+        models.createIndex(data)
     except:
-        print('❌  Filed to convert: %s' % (path))
+        print('❌  Filed to convert: %s \n%s' % (path, sys.exc_info()[1]))
 
 
 def rSearch(path):
@@ -154,5 +153,7 @@ if __name__ == '__main__':
         if not os.path.exists(input_dir):
             sys.stderr.write('❌  No such directory: %s')
         print('Use convert<%s>' % (image_magick_path))
-        # atexit.register(writeCsv)
+        models.open()
+        atexit.register(close)
+        models.initIndex()
         rSearch(input_dir)
