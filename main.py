@@ -19,9 +19,11 @@ import hashlib
 import models
 from log import *
 from distutils.spawn import find_executable
+from time import time
 
 # meta resources
 filemap = []
+global timer
 
 # ImageMagick
 image_magick_path = find_executable('convert')
@@ -76,6 +78,8 @@ def md5(fname):
     return hash_md5.hexdigest()
 
 def close():
+    logger.info('🌟  ---- END ----')
+    logger.info(time() - timer)
     models.close()
 
 
@@ -154,6 +158,8 @@ if __name__ == '__main__':
         if not os.path.exists(input_dir):
             logger.warning('❌  No such directory: %s')
         logger.info('Use convert<%s>' % (image_magick_path))
+        logger.info('🌤  ---- START ----')
+        timer = time()
         models.open()
         atexit.register(close)
         models.initIndex()
