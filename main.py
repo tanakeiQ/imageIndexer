@@ -17,6 +17,7 @@ import atexit
 import json
 import hashlib
 import models
+from log import *
 from distutils.spawn import find_executable
 
 # meta resources
@@ -83,7 +84,7 @@ def convert(path, filename):
     name, ext = os.path.splitext(filename)
     ext = ext.lstrip('.')
     if not ext in avairable_formats:
-        print('💦  file extension `%s` is not support: %s' % (ext, path))
+        logger.info('💦  file extension `%s` is not support: %s' % (ext, path))
         return
 
     output_filename = "%s_%s.%s" % (uuid.uuid4(), name, output_ext)
@@ -102,7 +103,7 @@ def convert(path, filename):
         cmd = cmd_common % (image_magick_path, path,
                             width, height, quality, output)
     try:
-        # print(cmd)
+        # logger.info(cmd)
         os.system(cmd)
         # Filename, File path, Extension, Thumbnail path, File size, width,
         # height
@@ -118,7 +119,7 @@ def convert(path, filename):
         }
         models.createIndex(data)
     except:
-        print('❌  Filed to convert: %s \n%s' % (path, sys.exc_info()[1]))
+        logger.warning('❌  Filed to convert: %s \nw%s' % (path, sys.exc_info()[1]))
 
 
 def rSearch(path):
@@ -129,18 +130,18 @@ def rSearch(path):
             if isEnableSym:
                 rSearch(fullpath)
             else:
-                print('🔗  Sym link is ignored: %s' % (fullpath))
+                logger.info('🔗  Sym link is ignored: %s' % (fullpath))
         elif os.path.isdir(fullpath):
             rSearch(fullpath)
         elif os.path.isfile(fullpath):
             convert(fullpath, filename)
         else:
-            print('💦  This file format not support: %s' % (fullpath))
+            logger.info('💦  This file format not support: %s' % (fullpath))
 
 
 if __name__ == '__main__':
     if not image_magick_path:
-        sys.stderr.write('''
+        logger.warning('''
 	❌  ImageMagick not installed
 	❌  Please install before. 
 	❌  
@@ -151,8 +152,8 @@ if __name__ == '__main__':
         if not os.path.exists(output_thumb_dir):
             os.makedirs(output_thumb_dir)
         if not os.path.exists(input_dir):
-            sys.stderr.write('❌  No such directory: %s')
-        print('Use convert<%s>' % (image_magick_path))
+            logger.warning('❌  No such directory: %s')
+        logger.info('Use convert<%s>' % (image_magick_path))
         models.open()
         atexit.register(close)
         models.initIndex()

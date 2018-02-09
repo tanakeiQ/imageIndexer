@@ -1,4 +1,5 @@
 import sqlite3
+from log import *
 
 conn = None
 cursor = None
@@ -9,13 +10,13 @@ def open():
 	if conn is None and cursor is None:
 		conn = sqlite3.connect('debug/main.db')
 		cursor = conn.cursor()
-		print('🌀  opned')
+		logger.info('🌀  opned')
 
 
 def close():
 	if not conn is None:
 		conn.close()
-		print('🌀  closed')
+		logger.info('🌀  closed')
 
 # Indexes indexes
 # uid
@@ -46,7 +47,7 @@ def initIndex():
 			)
 			""")
 	except sqlite3.Error as e:
-		print('Error: ', e.args[0])
+		logger.info('Error: ', e.args[0])
 		raise e
 	conn.commit()
 
@@ -63,8 +64,8 @@ def createIndex(data):
 					('{uid}', '{name}', '{ext}', '{path}', '{filename}', '{size}', '{width}', '{height}')
 				""".format(**data))
 		else:
-			print('%s is already exists' % (data['uid']))
+			logger.info('%s is already exists' % (data['uid']))
 	except sqlite3.Error as e:
-		print('Error: ', e.args[0])
+		logger.warning('Error: ', e.args[0])
 		raise e
 	conn.commit()
