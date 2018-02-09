@@ -2,16 +2,6 @@ import sqlite3
 from log import *
 
 conn = None
-cursor = None
-
-
-def open():
-	global conn,cursor
-	if conn is None and cursor is None:
-		conn = sqlite3.connect('debug/main.db')
-		cursor = conn.cursor()
-		logger.info('🌀  opned')
-
 
 def close():
 	if not conn is None:
@@ -30,6 +20,8 @@ def close():
 
 
 def initIndex():
+	conn = sqlite3.connect('debug/main.db')
+	cursor = conn.cursor()
 	try:
 		cursor.execute("""
 			CREATE TABLE IF NOT EXISTS indexes (
@@ -50,9 +42,13 @@ def initIndex():
 		logger.info('Error: ', e.args[0])
 		raise e
 	conn.commit()
+	cursor.close()
+	conn.close()
 
 
 def createIndex(data):
+	conn = sqlite3.connect('debug/main.db')
+	cursor = conn.cursor()
 	try:
 		cursor.execute("SELECT 1 FROM indexes WHERE uid = '%s'" % (data['uid']))
 		result=cursor.fetchone()
@@ -69,3 +65,6 @@ def createIndex(data):
 		logger.warning('Error: ', e.args[0])
 		raise e
 	conn.commit()
+	cursor.close()
+	conn.close()
+	return True

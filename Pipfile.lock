@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "b4cf62fa08c2c4d9244a0b8ae21b6366bef90b0f65612c0ad0ae1587b54618c4"
+            "sha256": "366526fa0faddc4b20380c3793c1f4287f70452fafc9e9c3c8220f82b1faddcd"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -41,11 +41,18 @@
             ],
             "version": "==0.6.2"
         },
+        "joblib": {
+            "hashes": [
+                "sha256:cf3420e27048c66916754472bc3a2d4717271103a4806f31f11707a3d82a991f",
+                "sha256:7b8fd56df36d9731a83729395ccb85a3b401f62a96255deb1a77220c00ed4085"
+            ],
+            "version": "==0.11"
+        },
         "peewee": {
             "hashes": [
-                "sha256:13c27d393fee89b121b70f073daaad709bb67a04a252abd7c914bd93d9ba847b"
+                "sha256:3661fc7b06799c6f2783cb424f1853ba3db6106341c2eb04b5c5a5279e036b85"
             ],
-            "version": "==3.0.11"
+            "version": "==3.0.16"
         },
         "pillow": {
             "hashes": [

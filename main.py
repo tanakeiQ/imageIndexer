@@ -20,6 +20,7 @@ import models
 from log import *
 from distutils.spawn import find_executable
 from time import time
+from joblib import Parallel, delayed
 
 # meta resources
 filemap = []
@@ -138,7 +139,10 @@ def rSearch(path):
         elif os.path.isdir(fullpath):
             rSearch(fullpath)
         elif os.path.isfile(fullpath):
-            convert(fullpath, filename)
+            filemap.append({
+                "filepath": fullpath,
+                "filename": filename
+                })
         else:
             logger.info('💦  This file format not support: %s' % (fullpath))
 
@@ -160,7 +164,8 @@ if __name__ == '__main__':
         logger.info('Use convert<%s>' % (image_magick_path))
         logger.info('🌤  ---- START ----')
         timer = time()
-        models.open()
         atexit.register(close)
         models.initIndex()
         rSearch(input_dir)
+        logger.info('--- file count = %s' % (len(filemap)))
+        Parallel(n_jobs=-1)( [delayed(convert)(filemap[idx]['filepath'], filemap[idx]['filename']) for idx in range(len(filemap))] )
