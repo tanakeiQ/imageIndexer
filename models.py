@@ -1,5 +1,4 @@
 import sqlite3
-import re
 from log import *
 
 conn = None
@@ -95,7 +94,7 @@ def createRoute(rootpath, fullpath):
 	conn = sqlite3.connect('debug/main.db')
 	cursor = conn.cursor()
 
-	data = re.sub(rootpath, '', fullpath).split('/')
+	data = fullpath.replace(rootpath, '').split('/')
 	dirs = {}
 	for i in range(len(data)):
 		dirs.update({'dir_%d' % (i + 1): str(data[i])})

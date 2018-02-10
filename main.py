@@ -16,6 +16,7 @@ import uuid
 import atexit
 import json
 import hashlib
+import re
 import models
 from log import *
 from distutils.spawn import find_executable
@@ -41,6 +42,8 @@ isEnableSym = False
 # Is customize script, modify avairable file format.
 avairable_formats = ['ai', 'eps', 'psd', 'png',
                      'jpg', 'jpeg', 'bmp', 'ico', 'ttf', 'pdf']
+
+ignorefiles = [r'^\..*']
 
 # Convert General Image
 # thumbnail width
@@ -89,9 +92,6 @@ def convert(path, filename):
     cmd = ''
     name, ext = os.path.splitext(filename)
     ext = ext.lstrip('.')
-    if not ext in avairable_formats:
-        logger.info('💦  file extension `%s` is not support: %s' % (ext, path))
-        return
 
     output_filename = "%s_%s.%s" % (uuid.uuid4(), name, output_ext)
     output = cmd_common_output % (output_thumb_dir, output_filename)
@@ -124,13 +124,23 @@ def convert(path, filename):
             "height": 0
         }
         models.createIndex(data)
+        logger.info('✅  INSERTED: %s' % (path))
     except:
-        logger.warning('❌  Filed to convert: %s \nw%s' % (path, sys.exc_info()[1]))
+        logger.warning('❌  Filed to convert: %s \n%s' % (path, sys.exc_info()[1]))
 
 
 def rSearch(path):
     filenames = os.listdir(path)
+    print(filenames)
     for filename in filenames:
+        ignored = False
+        for pattern in ignorefiles:
+            if re.match(pattern, filename):
+                logger.info('🛳  Ignored file: %s' % (filename))
+                ignored = True
+                break
+        if ignored:
+            continue
         fullpath = os.path.join(path, filename)
         if os.path.islink(fullpath):
             if isEnableSym:
@@ -142,12 +152,18 @@ def rSearch(path):
             models.createRoute(input_dir, fullpath)
             rSearch(fullpath)
         elif os.path.isfile(fullpath):
+            name, ext = os.path.splitext(filename)
+            ext = ext.lstrip('.')
+            if not ext in avairable_formats:
+                logger.info('💦  file extension `%s` is not support: %s' % (ext, fullpath))
+                break
             filemap.append({
                 "filepath": fullpath,
                 "filename": filename
-                })
+            })
         else:
             logger.info('💦  This file format not support: %s' % (fullpath))
+    return True
 
 
 if __name__ == '__main__':
@@ -166,6 +182,8 @@ if __name__ == '__main__':
             logger.warning('❌  No such directory: %s')
         logger.info('Use convert<%s>' % (image_magick_path))
         logger.info('🌤  ---- START ----')
+        # Adjsut input_directory path
+        input_dir += '/'
         timer = time()
         atexit.register(close)
         models.initIndex()
