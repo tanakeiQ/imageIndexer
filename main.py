@@ -36,8 +36,6 @@ input_dir = '%s/debug/resources/' % (os.getcwd())
 output_ext = 'png'
 # output thumbnail directory
 output_thumb_dir = '%s/debug/output/thumb' % (os.getcwd())
-# ouput json directory
-output_json_path = '%s/debug/output/_map.json' % (os.getcwd())
 # If applied script into symbolic link, set `True`
 isEnableSym = False
 # Is customize script, modify avairable file format.
