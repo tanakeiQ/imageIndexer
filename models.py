@@ -1,4 +1,5 @@
 import sqlite3
+import re
 from log import *
 
 conn = None
@@ -45,6 +46,28 @@ def initIndex():
 	cursor.close()
 	conn.close()
 
+def initRoutes(hierarchy = 1):
+	conn = sqlite3.connect('debug/main.db')
+	cursor = conn.cursor()
+	try:
+		dirs = ""
+		for i in range(hierarchy):
+			dirs += "dir_%s TEXT NULL," % (str(i + 1))
+		conn.execute("""
+			CREATE TABLE IF NOT EXISTS routes (
+				%s
+				is_enabled TINYINT(1) NOT NULL DEFAULT 0,
+				created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+				updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP
+			)
+			""" % (dirs))
+	except sqlite3.Error as e:
+		logger.info('Error: ', e.args[0])
+		raise e
+	conn.commit()
+	cursor.close()
+	conn.close()
+
 
 def createIndex(data):
 	conn = sqlite3.connect('debug/main.db')
@@ -67,4 +90,28 @@ def createIndex(data):
 	conn.commit()
 	cursor.close()
 	conn.close()
-	return True
+
+def createRoute(rootpath, fullpath):
+	conn = sqlite3.connect('debug/main.db')
+	cursor = conn.cursor()
+
+	data = re.sub(rootpath, '', fullpath).split('/')
+	dirs = {}
+	for i in range(len(data)):
+		dirs.update({'dir_%d' % (i + 1): str(data[i])})
+	keys = dirs.keys()
+	dir_query = list(map(lambda item: '\'{%s}\'' % (item), keys))
+	try:
+		query = """
+			INSERT INTO routes 
+				(%s)
+			VALUES
+				(%s)
+			""" % (','.join(keys), ','.join(dir_query))
+		conn.execute(query.format(**dirs))
+	except sqlite3.Error as e:
+		logger.warning('Error: ', e.args[0])
+		raise e
+	conn.commit()
+	cursor.close()
+	conn.close()

@@ -31,7 +31,7 @@ image_magick_path = find_executable('convert')
 
 # Target resources
 # image resources directory
-input_dir = '%s/debug/resources' % (os.getcwd())
+input_dir = '%s/debug/resources/' % (os.getcwd())
 # output file extension(don't forget dor(.))
 output_ext = 'png'
 # output thumbnail directory
@@ -70,6 +70,9 @@ NOPQRSTUVWXYZ
 コレハカタカナ
 此れは漢字'''
 cmd_font = '%s -font "%s" -pointsize %s label:"%s" -resize %dx%d -quality %d %s'
+
+# Route Map Settings
+routeMapDepth = 10
 
 def md5(fname):
     hash_md5 = hashlib.md5()
@@ -137,6 +140,8 @@ def rSearch(path):
             else:
                 logger.info('🔗  Sym link is ignored: %s' % (fullpath))
         elif os.path.isdir(fullpath):
+            logger.info('🌳  mapping Directory: %s' % (fullpath))
+            models.createRoute(input_dir, fullpath)
             rSearch(fullpath)
         elif os.path.isfile(fullpath):
             filemap.append({
@@ -166,6 +171,7 @@ if __name__ == '__main__':
         timer = time()
         atexit.register(close)
         models.initIndex()
+        models.initRoutes(routeMapDepth)
         rSearch(input_dir)
         logger.info('--- file count = %s' % (len(filemap)))
         Parallel(n_jobs=-1)( [delayed(convert)(filemap[idx]['filepath'], filemap[idx]['filename']) for idx in range(len(filemap))] )
