@@ -1,21 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-            <title>
-                Setting - Route
-            </title>
-        </meta>
-    </head>
-    <body>
-        <div class="routes">
-            <h1>
-                ルート設定
-            </h1>
-            <h2>
-                リソースのディレクトリルートとなるディレクトリを選択します
-            </h2>
-            <form action="/routes" method="POST">
+%rebase layout title='ルート設定'
+<style>
+    table {
+        width: 100%;
+    }
+    thead th, tbody td {
+        text-align:center;
+    }
+    h1, h2, h3 {
+        margin-top:2em;
+    }
+    .center {
+        text-align: center;
+    }
+</style>
+<div class="routes container">
+    <h2 class="center">
+        ルート設定
+    </h2>
+    <h5 class="center">
+        リソースのディレクトリルートを選択します
+    </h5>
+    <form action="/routes" method="POST">
+        <div class="row">
+            <div class="columns">
                 <table border="0" cellpadding="0" cellspacing="0">
                     <thead>
                         <th>
@@ -31,21 +38,24 @@
                         % for route in routes['result']:
                         <tr>
                             <td>
-                                <input ''}}="" else="" id="" if="" name="" route['is_enabled']="1" type="checkbox" {{'checked'=""/>
+                                <input type="checkbox" {{'checked' if route['is_enabled'] == 1 else ''}} />
                             </td>
                             % for key in routes['column_key']:
                             <td>
-                                {{route[key]}}
+                                {{route[key] if route[key] is not None else '□' }}
                             </td>
                             % end
                         </tr>
                         % end
                     </tbody>
                 </table>
-                <div class="buttons">
-                	<input type="submit" value="更新する">
-                </div>
-            </form>
+            </div>
         </div>
-    </body>
-</html>
+        <div class="row">
+            <div class="offset-by-three six columns">
+                <input class="button-primary" style="width: 100%;" type="submit" value="更新する">
+                </input>
+            </div>
+        </div>
+    </form>
+</div>
