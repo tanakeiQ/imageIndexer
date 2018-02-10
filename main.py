@@ -17,7 +17,7 @@ import atexit
 import json
 import hashlib
 import re
-import models
+import apimodels
 from log import *
 from distutils.spawn import find_executable
 from time import time
@@ -75,6 +75,7 @@ cmd_font = '%s -font "%s" -pointsize %s label:"%s" -resize %dx%d -quality %d %s'
 # Route Map Settings
 routeMapDepth = 10
 
+
 def md5(fname):
     hash_md5 = hashlib.md5()
     with open(fname, "rb") as f:
@@ -82,10 +83,11 @@ def md5(fname):
             hash_md5.update(chunk)
     return hash_md5.hexdigest()
 
+
 def close():
     logger.info('🌟  ---- END ----')
     logger.info(time() - timer)
-    models.close()
+    apimodels.close()
 
 
 def convert(path, filename):
@@ -118,15 +120,16 @@ def convert(path, filename):
             "name": name,
             "ext": ext,
             "path": path,
-            "filename": output_filename,
+            "thumbnail": output_filename,
             "size": os.path.getsize(path),
             "width": 0,
             "height": 0
         }
-        models.createIndex(data)
+        apimodels.createIndex(data)
         logger.info('✅  INSERTED: %s' % (path))
     except:
-        logger.warning('❌  Filed to convert: %s \n%s' % (path, sys.exc_info()[1]))
+        logger.warning('❌  Filed to convert: %s \n%s' %
+                       (path, sys.exc_info()[1]))
 
 
 def rSearch(path):
@@ -149,13 +152,14 @@ def rSearch(path):
                 logger.info('🔗  Sym link is ignored: %s' % (fullpath))
         elif os.path.isdir(fullpath):
             logger.info('🌳  mapping Directory: %s' % (fullpath))
-            models.createRoute(input_dir, fullpath)
+            apimodels.createRoute(input_dir, fullpath)
             rSearch(fullpath)
         elif os.path.isfile(fullpath):
             name, ext = os.path.splitext(filename)
             ext = ext.lstrip('.')
             if not ext in avairable_formats:
-                logger.info('💦  file extension `%s` is not support: %s' % (ext, fullpath))
+                logger.info('💦  file extension `%s` is not support: %s' %
+                            (ext, fullpath))
                 break
             filemap.append({
                 "filepath": fullpath,
@@ -186,8 +190,9 @@ if __name__ == '__main__':
         input_dir += '/'
         timer = time()
         atexit.register(close)
-        models.initIndex()
-        models.initRoutes(routeMapDepth)
+        apimodels.initIndex()
+        apimodels.initRoutes(routeMapDepth)
         rSearch(input_dir)
         logger.info('--- file count = %s' % (len(filemap)))
-        Parallel(n_jobs=-1)( [delayed(convert)(filemap[idx]['filepath'], filemap[idx]['filename']) for idx in range(len(filemap))] )
+        Parallel(n_jobs=-1)([delayed(convert)(filemap[idx]['filepath'],
+                                              filemap[idx]['filename']) for idx in range(len(filemap))])
