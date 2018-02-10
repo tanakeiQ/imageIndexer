@@ -38,7 +38,11 @@
                         % for route in routes['result']:
                         <tr>
                             <td>
-                                <input type="checkbox" {{'checked' if route['is_enabled'] == 1 else ''}} />
+                                % if route['is_enabled'] is 1:
+                                    <input type="checkbox" data-id="{{route['id']}}" data-is-enabled="true" checked />
+                                % else:
+                                    <input type="checkbox" data-id="{{route['id']}}" data-is-enabled="false" />
+                                % end
                             </td>
                             % for key in routes['column_key']:
                             <td>

@@ -38,7 +38,7 @@ class Route:
         cursor = conn.cursor()
         try:
             cursor.execute("""
-            	SELECT %s, is_enabled FROM routes ORDER BY %s
+            	SELECT id, %s, is_enabled FROM routes ORDER BY %s
             	""" % (','.join(self.select_dir_names), ','.join(self.select_dir_names)))
             result = cursor.fetchall()
         except sqlite3.Error as e:
