@@ -18,17 +18,15 @@ print(app.config)
 
 @route('/')
 def index():
-    f = open(app.config['resource.map_path'], 'r')
-    reader = json.load(f)
-    data = "{}".format(json.dumps(reader))
-    f.close()
-    return template('index',  {'data': data})
+    return template('index',  {'data': None})
 
 
-@route('/static/thumb/<filename>')
-def server_static(filename):
-    return static_file(filename, root=app.config['resource.static_path'])
+@route('/static/<filepath:path>')
+def server_static(filepath):
+    return static_file(filepath, root=app.config['resource.static_path'])
 
 
-run(host=app.config['server.host'], port=app.config[
-    'server.port'], debug=app.config['server.is_debug'])
+run(host=app.config['server.host'], 
+	port=app.config['server.port'],
+	debug=app.config['server.is_debug'],
+	reloader=app.config['server.is_auto_reload'])
