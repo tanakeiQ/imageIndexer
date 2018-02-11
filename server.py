@@ -21,7 +21,7 @@ print(app.config)
 def index():
     _route = Route.Route()
     routes = _route.getAll()
-    return template('index', {'routes': routes})
+    return template('routes', {'routes': routes})
 
 
 @post('/routes')
@@ -43,6 +43,18 @@ def index():
             _routeIndex.disassociate(id)
 
     redirect("/routes")
+
+
+@get('/files')
+def files():
+    _route = Route.Route()
+    routes = None  # _route.getDirectories()
+    return template('files', {'routes': routes})
+
+
+@get('/static/thumb/<filepath:path>')
+def server_static(filepath):
+    return static_file(filepath, root=app.config['resource.thumbnail_path'])
 
 
 @get('/static/<filepath:path>')

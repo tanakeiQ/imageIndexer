@@ -33,6 +33,7 @@ image_magick_path = find_executable('convert')
 # Target resources
 # image resources directory
 input_dir = '%s/debug/resources/' % (os.getcwd())
+# input_dir = '%s/debug/resources/' % (os.getcwd())
 # output file extension(don't forget dor(.))
 output_ext = 'png'
 # output thumbnail directory
