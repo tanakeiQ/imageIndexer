@@ -16,4 +16,7 @@
     </body>
     <script crossorigin="anonymous" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" src="http://code.jquery.com/jquery-3.3.1.slim.min.js">
     </script>
+    % if defined('routes'):
+    <script src="/static/js/routes.js"></script>
+
 </html>

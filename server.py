@@ -26,7 +26,8 @@ def index():
 
 @post('/routes')
 def index():
-    print(request.forms)
+    print(request.forms.decode().getall('disabled'))
+    print(request.forms.decode().getall('actived[]'))
     redirect("/routes")
 
 

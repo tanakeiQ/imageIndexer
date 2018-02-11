@@ -1,4 +1,4 @@
-%rebase layout title='ルート設定'
+%rebase('layout.tpl',title='ルート設定',routes='True')
 <style>
     table {
         width: 100%;
@@ -20,7 +20,7 @@
     <h5 class="center">
         リソースのディレクトリルートを選択します
     </h5>
-    <form action="/routes" method="POST">
+    <form id="form_routes" action="/routes" method="POST">
         <div class="row">
             <div class="columns">
                 <table border="0" cellpadding="0" cellspacing="0">
@@ -39,9 +39,9 @@
                         <tr>
                             <td>
                                 % if route['is_enabled'] is 1:
-                                    <input type="checkbox" data-id="{{route['id']}}" data-is-enabled="true" checked />
+                                    <input type="checkbox" id="is_enabled" data-id="{{route['id']}}" data-is-enabled="true" checked />
                                 % else:
-                                    <input type="checkbox" data-id="{{route['id']}}" data-is-enabled="false" />
+                                    <input type="checkbox" id="is_enabled" data-id="{{route['id']}}" data-is-enabled="false" />
                                 % end
                             </td>
                             % for key in routes['column_key']:
