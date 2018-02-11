@@ -59,6 +59,7 @@ def initRoutes(hierarchy=1):
         conn.execute("""
             CREATE TABLE IF NOT EXISTS routes (
                 id TEXT NOT NULL PRIMARY KEY,
+                path TEXT NOT NULL,
                 %s
                 description TEXT NULL,
                 is_enabled TINYINT(1) NOT NULL DEFAULT 0,
@@ -130,7 +131,8 @@ def createRoute(rootpath, fullpath):
 
     data = fullpath.replace(rootpath, '').split('/')
     dirs = {
-        'id': str(uuid.uuid4())
+        'id': str(uuid.uuid4()),
+        'path': fullpath.replace(rootpath, '')
     }
     for i in range(len(data)):
         dirs.update({'dir_%d' % (i + 1): str(data[i])})
