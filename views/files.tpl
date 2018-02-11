@@ -43,23 +43,24 @@
         ディレクトリを選択すると、ディレクトリ内の画像一覧が表示されます
     </h5>
     <div class="row">
-        <div class="four columns directory">
-            <div class="thumbnails">
-                <img alt="" src="/static/thumb/7fef0ed6-4b62-4973-9b04-0f951e912037_01.png">
-                    <img alt="" src="/static/thumb/7fef0ed6-4b62-4973-9b04-0f951e912037_01.png">
-                        <img alt="" src="/static/thumb/7fef0ed6-4b62-4973-9b04-0f951e912037_01.png">
-                        </img>
-                    </img>
-                </img>
-            </div>
-            <div class="description">
-                <p class="memo">
-                    これはテストです
-                </p>
-                <p class="path">
-                    files/design/TEST
-                </p>
-            </div>
-        </div>
+        % for route in routes.keys():
+            % if len(routes[route]) > 0:
+                <div class="four columns directory">
+                    <div class="thumbnails">
+                        % for index in routes[route]:
+                            <img alt="" src="/static/thumb/{{index['thumbnail']}}">
+                        % end
+                    </div>
+                    <div class="description">
+                        <p class="memo">
+                            {{routes[route][0]['description']}}
+                        </p>
+                        <p class="path">
+                            {{routes[route][0]['path']}}
+                        </p>
+                    </div>
+                </div>
+            % end
+        % end
     </div>
 </div>

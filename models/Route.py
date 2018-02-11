@@ -50,10 +50,12 @@ class Route:
         conn.close()
         return self.setValue(result)
 
-    def getDirectories(self):
+    def getDirectories(self, limit=10):
         conn = sqlite3.connect('debug/main.db')
         conn.row_factory = sqlite3.Row
         cursor = conn.cursor()
+
+        routes = {}
         try:
             cursor.execute("""
                 SELECT r.id, r.path, r.description, i.thumbnail FROM routes AS r
@@ -63,12 +65,20 @@ class Route:
                     ON i.id = ri.index_id
                 """)
             result = cursor.fetchall()
+            for route in result:
+                if not route['id'] in routes:
+                    routes[route['id']] = []
+                print(len(routes[route['id']]))
+                if len(routes[route['id']]) < limit:
+                    routes[route['id']].append(route)
+
         except sqlite3.Error as e:
             logger.info('Error: ', e.args[0])
             raise e
         conn.commit()
         cursor.close()
         conn.close()
+        return routes
 
     def update(self, id, input):
         conn = sqlite3.connect('debug/main.db')

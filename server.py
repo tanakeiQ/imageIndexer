@@ -48,7 +48,7 @@ def index():
 @get('/files')
 def files():
     _route = Route.Route()
-    routes = None  # _route.getDirectories()
+    routes = _route.getDirectories(limit=4)
     return template('files', {'routes': routes})
 
 
