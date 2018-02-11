@@ -192,6 +192,7 @@ if __name__ == '__main__':
         atexit.register(close)
         apimodels.initIndex()
         apimodels.initRoutes(routeMapDepth)
+        apimodels.initRouteIndexes()
         rSearch(input_dir)
         logger.info('--- file count = %s' % (len(filemap)))
         Parallel(n_jobs=-1)([delayed(convert)(filemap[idx]['filepath'],

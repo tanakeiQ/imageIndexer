@@ -74,6 +74,29 @@ def initRoutes(hierarchy=1):
     conn.close()
 
 
+def initRouteIndexes():
+    conn = sqlite3.connect('debug/main.db')
+    cursor = conn.cursor()
+    try:
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS route_indexes (
+                route_id TEXT NOT NULL,
+                index_id TEXT NULL,
+                created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP
+            )
+            """)
+        conn.execute("""
+            CREATE INDEX idx__route_id__index_id ON route_indexes(route_id, index_id)
+            """)
+    except sqlite3.Error as e:
+        logger.info('Error: ', e.args[0])
+        raise e
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+
 def createIndex(data):
     conn = sqlite3.connect('debug/main.db')
     cursor = conn.cursor()
