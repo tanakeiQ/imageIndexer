@@ -5,7 +5,7 @@
 #
 import json
 import bottle
-from models import Route
+from models import Route, RouteIndex
 from bottle import run, get, post, request, redirect, template, static_file
 
 app = bottle.default_app()
@@ -30,14 +30,17 @@ def index():
     disabled = request.forms.decode().getall('disabled[]')
 
     _route = Route.Route()
+    _routeIndex = RouteIndex.RouteIndex()
 
     if len(actived) > 0:
         for id in actived:
             routes = _route.update(id, {'is_enabled': 1})
+            _routeIndex.associate(id)
 
     if len(disabled) > 0:
         for id in disabled:
             routes = _route.update(id, {'is_enabled': 0})
+            _routeIndex.disassociate(id)
 
     redirect("/routes")
 
