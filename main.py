@@ -119,7 +119,7 @@ def convert(path, filename):
             "uid": md5(path),
             "name": name,
             "ext": ext,
-            "path": path,
+            "path": path.replace(input_dir, ''),
             "thumbnail": output_filename,
             "size": os.path.getsize(path),
             "width": 0,

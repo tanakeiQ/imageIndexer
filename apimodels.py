@@ -59,9 +59,11 @@ def initRoutes(hierarchy=1):
             CREATE TABLE IF NOT EXISTS routes (
                 id TEXT NOT NULL PRIMARY KEY,
                 %s
+                description TEXT NULL,
                 is_enabled TINYINT(1) NOT NULL DEFAULT 0,
                 created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-                updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP
+                updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+                deleted_at TIMESTAMP NULL
             )
             """ % (dirs))
     except sqlite3.Error as e:
