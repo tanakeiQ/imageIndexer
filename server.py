@@ -26,8 +26,19 @@ def index():
 
 @post('/routes')
 def index():
-    print(request.forms.decode().getall('disabled'))
-    print(request.forms.decode().getall('actived[]'))
+    actived = request.forms.decode().getall('actived[]')
+    disabled = request.forms.decode().getall('disabled[]')
+
+    _route = Route.Route()
+
+    if len(actived) > 0:
+        for id in actived:
+            routes = _route.update(id, {'is_enabled': 1})
+
+    if len(disabled) > 0:
+        for id in disabled:
+            routes = _route.update(id, {'is_enabled': 0})
+
     redirect("/routes")
 
 

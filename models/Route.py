@@ -4,6 +4,7 @@
 # Created by tanakeiQ<tanakei@suitehearts.co>
 #
 import sqlite3
+from log import *
 
 
 class Route:
@@ -48,6 +49,24 @@ class Route:
         cursor.close()
         conn.close()
         return self.setValue(result)
+
+    def update(self, id, input):
+        conn = sqlite3.connect('debug/main.db')
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        keys = input.keys()
+        values = list(
+            map(lambda item: '%s = \'%s\'' % (item, input[item]), keys))
+        try:
+            cursor.execute("""
+                UPDATE routes SET %s WHERE id = '%s'
+                """ % (','.join(values), id))
+        except sqlite3.Error as e:
+            logger.info('Error: ', e.args[0])
+            raise e
+        conn.commit()
+        cursor.close()
+        conn.close()
 
     def setValue(self, result):
         return {
