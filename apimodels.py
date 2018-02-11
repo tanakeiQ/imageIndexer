@@ -27,7 +27,8 @@ def initIndex():
     try:
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS indexes (
-                uid TEXT NOT NULL PRIMARY KEY,
+                id TEXT NOT NULL PRIMARY KEY,
+                uid TEXT NOT NULL,
                 name TEXT NOT NULL,
                 ext TEXT NULL,
                 path TEXT NOT NULL,
@@ -105,11 +106,12 @@ def createIndex(data):
                        (data['uid']))
         result = cursor.fetchone()
         if result is None:
+            data['id'] = uuid.uuid4()
             cursor.execute("""
                 INSERT INTO indexes
-                    (uid, name, ext, path, thumbnail, size, width, height)
+                    (id, uid, name, ext, path, thumbnail, size, width, height)
                 VALUES
-                    ('{uid}', '{name}', '{ext}', '{path}',
+                    ('{id}', '{uid}', '{name}', '{ext}', '{path}',
                      '{thumbnail}', '{size}', '{width}', '{height}')
                 """.format(**data))
         else:
