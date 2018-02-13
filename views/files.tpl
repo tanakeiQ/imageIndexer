@@ -39,16 +39,11 @@
     .memo input {
         width: 90%;
     }
-    .memo input[disabled] {
-        border: none;
-        background-color: inherit;
-        text-align: center;
-    }
     .path {
         margin: 0;
     }
     .description {
-        background-color: #ececec;
+        border: 1px solid lightblue;
         padding: 2px;
     }
     .active {

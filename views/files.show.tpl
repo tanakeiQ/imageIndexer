@@ -1,18 +1,6 @@
 %rebase('layout.tpl',title='ファイル一覧', script='files.show')
 <div class="route">
     <style>
-        h1{
-		  font-size: 30px;
-		  color: #fff;
-		  text-transform: uppercase;
-		  font-weight: 300;
-		  text-align: center;
-		  margin-bottom: 15px;
-		}
-		h2,h5 {
-			color: #fff;
-			text-align: center;
-		}
 		table{
 		  width:100%;
 		  table-layout: fixed;
@@ -56,20 +44,6 @@
 			font-size: 24px;
 		}
 
-
-		/* demo styles */
-
-		@import url(https://fonts.googleapis.com/css?family=Roboto:400,500,300,700);
-		body{
-		  background: -webkit-linear-gradient(left, #25c481, #25b7c4);
-		  background: linear-gradient(to right, #25c481, #25b7c4);
-		  font-family: 'Roboto', sans-serif;
-		}
-		section{
-		  margin: 50px;
-		}
-
-
 		/* follow me template */
 		.made-with-love {
 		  margin-top: 40px;
@@ -93,19 +67,6 @@
 		}
 		.made-with-love a:hover {
 		  text-decoration: underline;
-		}
-
-
-		/* for custom scrollbar for webkit browser*/
-
-		::-webkit-scrollbar {
-		    width: 6px;
-		} 
-		::-webkit-scrollbar-track {
-		    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
-		} 
-		::-webkit-scrollbar-thumb {
-		    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
 		}
     </style>
     <h2 class="center">
