@@ -33,6 +33,23 @@ class Route:
     #         for key in result:
     #             self.column_name.append(key['name'])
 
+    def get(self, id):
+        conn = sqlite3.connect('debug/main.db')
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        try:
+            cursor.execute("""
+                SELECT * FROM routes WHERE id = '%s' LIMIT 1
+                """ % (id))
+            result = cursor.fetchone()
+        except sqlite3.Error as e:
+            logger.info('Error: ', e.args[0])
+            raise e
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return result
+
     def getAll(self):
         conn = sqlite3.connect('debug/main.db')
         conn.row_factory = sqlite3.Row

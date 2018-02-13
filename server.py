@@ -5,7 +5,7 @@
 #
 import json
 import bottle
-from models import Route, RouteIndex
+from models import Index
 from bottle import run, get, post, request, redirect, template, static_file
 from app.controller.api import *
 
@@ -51,6 +51,16 @@ def files():
     _route = Route.Route()
     routes = _route.getDirectories(limit=4)
     return template('files', {'routes': routes})
+
+
+@get('/files/<id>')
+def file(id):
+    _route = Route.Route()
+    route = _route.get(id)
+
+    _index = Index.Index()
+    indexes = _index.getByRouteId(id)
+    return template('files.show', {'route': route, 'indexes': indexes})
 
 
 @get('/static/thumb/<filepath:path>')

@@ -26,6 +26,9 @@
         margin: 0 auto;
         text-align: center;
     }
+    .thumbnails a:hover {
+        opacity: 0.7;
+    }
     .thumbnails img {
         width: 48%;
     }
@@ -67,10 +70,11 @@
             % if len(routes[route]) > 0:
                 <div class="four columns directory">
                     <div class="thumbnails">
-                        % for index in routes[route]:
-                        <img alt="" src="/static/thumb/{{index['thumbnail']}}">
+                        <a href="/files/{{routes[route][0]['id']}}">
+                            % for index in routes[route]:
+                                <img alt="" src="/static/thumb/{{index['thumbnail']}}">
                             % end
-                        </img>
+                        </a>
                     </div>
                     <div class="description">
                         <div class="memo">
