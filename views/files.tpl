@@ -1,16 +1,7 @@
 %rebase('layout.tpl',title='ディレクトリ一覧',script='files')
 <style>
-    body {
-        font-size: 1.8em;
-    }
     div.files {
         margin: 0 2%;
-    }
-    h1, h2, h3 {
-        margin-top:2em;
-    }
-    .center {
-        text-align: center;
     }
     .directory {
         margin-top: 15px;

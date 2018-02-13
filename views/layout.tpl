@@ -14,11 +14,11 @@
         </meta>
         <style>
             .ion {
-                color: #57585a;
+                color: #353232;
                 font-size: 1.2em;
             }
             .ion:hover {
-                color: #bfc9dc;
+                color: #675b5b;
                 cursor: pointer;
             }
             @import url(https://fonts.googleapis.com/css?family=Roboto:400,500,300,700);
@@ -28,16 +28,38 @@
                 font-family: 'Roboto', sans-serif;
                 color: white;
             }
+            h1, h2, h3 {
+                margin-top:2em;
+            }
+            h4,h5,h6 {
+                margin-top: 1em;
+            }
+            .center {
+                text-align: center;
+            }
             input[type="email"], input[type="number"], input[type="search"], input[type="text"], input[type="tel"], input[type="url"], input[type="password"], textarea, select {
                 background-color: rgba(0, 0, 0, 0.21);
                 border: none;
                 box-shadow: inset 0px 2px 4px 0px #636465;
+            }
+            .container {
+                max-width: 1200px;
             }
             input[disabled] {
                 border: none;
                 background-color: inherit;
                 text-align: center;
                 box-shadow: none;
+            }
+            .button, button, input[type="submit"], input[type="reset"], input[type="button"] {
+                border-color: white;
+                color: white;
+                font-size: 1.2em;
+            }
+            .button:hover, button:hover, input[type="submit"]:hover, input[type="reset"]:hover, input[type="button"]:hover {
+                border-color: white;
+                background-color: white;
+                color: #3ebda2;
             }
             section{
                 margin: 50px;

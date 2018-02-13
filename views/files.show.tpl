@@ -33,13 +33,6 @@
 		  border-bottom: solid 1px rgba(255,255,255,0.1);
 		  text-align: center;
 		}
-        .ion {
-            color: #353232;
-        }
-        .ion:hover {
-            color: #675b5b;
-            cursor: pointer;
-        }
 		.ion.ion-lg {
 			font-size: 24px;
 		}
@@ -69,11 +62,8 @@
 		  text-decoration: underline;
 		}
     </style>
-    <h2 class="center">
-        ファイル一覧
-    </h2>
     <h5 class="center">
-        `{{route['path']}}` ディレクトリのファイル一覧です
+        path: '{{route['path']}}'
     </h5>
     <div class="tbl-header">
         <table border="0" cellpadding="0" cellspacing="0">

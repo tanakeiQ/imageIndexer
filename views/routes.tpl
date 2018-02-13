@@ -21,7 +21,7 @@
         リソースのディレクトリルートを選択します
     </h5>
     <form id="form_routes" action="/routes" method="POST">
-        <div class="row">
+        <div class="row" style="overflow-x: auto;">
             <div class="columns">
                 <table border="0" cellpadding="0" cellspacing="0">
                     <thead>
@@ -57,7 +57,7 @@
         </div>
         <div class="row">
             <div class="offset-by-three six columns">
-                <input class="button-primary" style="width: 100%;" type="submit" value="更新する">
+                <input class="button" style="width: 100%;" type="submit" value="更新する">
                 </input>
             </div>
         </div>
