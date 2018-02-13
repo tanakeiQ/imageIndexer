@@ -68,7 +68,6 @@ class Route:
             for route in result:
                 if not route['id'] in routes:
                     routes[route['id']] = []
-                print(len(routes[route['id']]))
                 if len(routes[route['id']]) < limit:
                     routes[route['id']].append(route)
 

@@ -7,6 +7,7 @@ import json
 import bottle
 from models import Route, RouteIndex
 from bottle import run, get, post, request, redirect, template, static_file
+from app.controller.api import *
 
 app = bottle.default_app()
 app.config.load_config([

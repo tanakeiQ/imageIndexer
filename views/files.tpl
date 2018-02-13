@@ -1,5 +1,8 @@
-%rebase('layout.tpl',title='ディレクトリ一覧',files='True')
+%rebase('layout.tpl',title='ディレクトリ一覧',script='files')
 <style>
+    body {
+        font-size: 1.8em;
+    }
     div.files {
         margin: 0 2%;
     }
@@ -19,6 +22,10 @@
     .directory:nth-child(n+4) {
         border-top: 1px solid lightgray;
     }
+    .thumbnails {
+        margin: 0 auto;
+        text-align: center;
+    }
     .thumbnails img {
         width: 48%;
     }
@@ -26,13 +33,26 @@
         text-align: center;
         font-size: 20px;
     }
+    .memo input {
+        width: 90%;
+    }
+    .memo input[disabled] {
+        border: none;
+        background-color: inherit;
+        text-align: center;
+    }
     .path {
         margin: 0;
     }
     .description {
-        border-top: 1px dashed darkgray;
         background-color: #ececec;
         padding: 2px;
+    }
+    .active {
+        display: initial;
+    }
+    .disactive {
+        display: none
     }
 </style>
 <div class="files">
@@ -48,13 +68,20 @@
                 <div class="four columns directory">
                     <div class="thumbnails">
                         % for index in routes[route]:
-                            <img alt="" src="/static/thumb/{{index['thumbnail']}}">
-                        % end
+                        <img alt="" src="/static/thumb/{{index['thumbnail']}}">
+                            % end
+                        </img>
                     </div>
                     <div class="description">
-                        <p class="memo">
-                            {{routes[route][0]['description']}}
-                        </p>
+                        <div class="memo">
+                            <input disabled="disabled" type="text" data-id="{{routes[route][0]['id']}}" value="{{routes[route][0]['description']}}"/>
+                            <span class="edit-description active">
+                                <i class="ion-edit ion"></i>
+                            </span>
+                            <span class="edited-description disactive">
+                                <i class="ion-checkmark ion"></i>
+                            </span>
+                        </div>
                         <p class="path">
                             {{routes[route][0]['path']}}
                         </p>

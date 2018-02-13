@@ -1,4 +1,4 @@
-%rebase('layout.tpl',title='ルート設定',routes='True')
+%rebase('layout.tpl',title='ルート設定',script='routes')
 <style>
     table {
         width: 100%;
