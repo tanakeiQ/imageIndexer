@@ -64,7 +64,7 @@ def file(id):
 
     _index = Index.Index()
     indexes = _index.getByRouteId(id)
-    return template('files.show', {'route': route, 'indexes': indexes})
+    return template('files.show', {'route': route, 'indexes': indexes, 'configs': app.config})
 
 
 @get('/static/thumb/<filepath:path>')

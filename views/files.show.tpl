@@ -1,7 +1,7 @@
 %rebase('layout.tpl',title='ファイル一覧', script='files.show')
 <div class="route">
     <style>
-		table{
+        table{
 		  width:100%;
 		  table-layout: fixed;
 		}
@@ -33,6 +33,10 @@
 		  border-bottom: solid 1px rgba(255,255,255,0.1);
 		  text-align: center;
 		}
+		th:first-child, td:first-child {
+			width: 30px;
+			text-align: right;
+		}
 		.ion.ion-lg {
 			font-size: 24px;
 		}
@@ -61,21 +65,28 @@
 		.made-with-love a:hover {
 		  text-decoration: underline;
 		}
+		button.copy-clipboard {
+			width: 30%;
+		}
     </style>
     <h5 class="center">
-        path: '{{route['path']}}'
+        path: '{{route['path']}}'<br>
+        <span style="color: #443e3b;">{{len(indexes)}} 件</span>
     </h5>
     <div class="tbl-header">
         <table border="0" cellpadding="0" cellspacing="0">
             <thead>
                 <tr>
+                	<th>
+                		No.
+                	</th>
                     <th>
-                    	サムネイル
+                        サムネイル
                     </th>
                     <th>
                         ファイル名
                     </th>
-                    <th>
+                    <th style="width: 120px;">
                         フォーマット
                     </th>
                     <th>
@@ -85,7 +96,7 @@
                         サイズ
                     </th>
                     <th>
-                    	コピー
+                        コピー
                     </th>
                 </tr>
             </thead>
@@ -93,28 +104,53 @@
     </div>
     <div class="tbl-content">
         <table border="0" cellpadding="0" cellspacing="0">
-            <!-- <thead></thead> -->
+        	% no = 1
             <tbody>
                 % for index in indexes:
                 <tr>
+                	<td>
+                		{{no}}
+                		% no += 1
+                	</td>
                     <td>
                         <img src="/static/thumb/{{index['thumbnail']}}"/>
                     </td>
                     <td>
                         {{index['name']}}
                     </td>
-                    <td>
+                    <td style="width: 120px;">
                         {{index['ext']}}
                     </td>
                     <td>
                         {{index['path']}}
                     </td>
                     <td>
-                        {{index['size']}}
+                    	% data = index['size']
+						
+						<% 
+							ext = ['Byte', 'Kb', 'Mb', 'Gb']
+							extCount = 0
+							while data > 1000:
+								data = data / 1000
+								extCount += 1
+							end
+							data = '%s %s' % (round(data, 2), ext[extCount])
+						%>
+						{{data}}
                     </td>
                     <td>
-						<i class="ion ion-lg ion-social-windows copy-win" data-path="{{index['path']}}"></i>
-                    	<i class="ion ion-lg ion-social-apple copy-osx" data-path="{{index['path']}}"></i>
+                        <input id="copy-win-{{index['id']}}" type="text" value="{{'%s/%s' % (configs['batch.input_dir'], index['path'])}}">
+                            <button class="copy-clipboard" data-clipboard-target="#copy-win-{{index['id']}}">
+                                <i class="ion ion-lg ion-social-windows">
+                                </i>
+                            </button>
+                            <input id="copy-osx-{{index['id']}}" type="text" value="{{'%s/%s' % (configs['batch.input_dir'], index['path'])}}">
+                                <button class="copy-clipboard" data-clipboard-target="#copy-osx-{{index['id']}}">
+                                    <i class="ion ion-lg ion-social-apple">
+                                    </i>
+                                </button>
+                            </input>
+                        </input>
                     </td>
                 </tr>
                 % end
