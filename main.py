@@ -24,9 +24,13 @@ from log import *
 from distutils.spawn import find_executable
 from time import time
 from joblib import Parallel, delayed
+from multiprocessing import Value
+
+share_count = Value('i', 1)
 
 # meta resources
 filemap = []
+filecount = 0
 global timer
 config = configparser.ConfigParser()
 config.read('config/batch.ini')
@@ -124,7 +128,9 @@ def convert(path, filename):
             "height": 0
         }
         apimodels.createIndex(data)
-        logger.info('✅  INSERTED: %s' % (path))
+        logger.info('✅  (%d/%d) INSERTED: %s' %
+                    (share_count.value, filecount, path))
+        share_count.value += 1
     except:
         logger.warning('❌  Filed to convert: %s \n%s' %
                        (path, sys.exc_info()[1]))
@@ -132,7 +138,6 @@ def convert(path, filename):
 
 def rSearch(path):
     filenames = os.listdir(path)
-    print(filenames)
     for filename in filenames:
         ignored = False
         for pattern in ignorefiles:
@@ -192,7 +197,8 @@ if __name__ == '__main__':
         apimodels.initRoutes(routeMapDepth)
         apimodels.initRouteIndexes()
         rSearch(input_dir)
-        logger.info('--- file count = %s' % (len(filemap)))
+        filecount = len(filemap)
+        logger.info('--- file count = %s' % (filecount))
         Parallel(n_jobs=-1)([
             delayed(convert)(
                 filemap[idx]['filepath'],

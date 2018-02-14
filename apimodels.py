@@ -89,7 +89,7 @@ def initRouteIndexes():
             )
             """)
         conn.execute("""
-            CREATE INDEX idx__route_id__index_id ON route_indexes(route_id, index_id)
+            CREATE INDEX IF NOT EXISTS idx__route_id__index_id ON route_indexes(route_id, index_id)
             """)
     except sqlite3.Error as e:
         logger.info('Error: ', e.args[0])
@@ -103,7 +103,7 @@ def createIndex(data):
     conn = sqlite3.connect('debug/main.db')
     cursor = conn.cursor()
     try:
-        cursor.execute("SELECT 1 FROM indexes WHERE uid = '%s'" %
+        cursor.execute('SELECT 1 FROM indexes WHERE uid = "%s"' %
                        (data['uid']))
         result = cursor.fetchone()
         if result is None:
@@ -112,14 +112,14 @@ def createIndex(data):
                 INSERT INTO indexes
                     (id, uid, name, ext, path, thumbnail, size, width, height)
                 VALUES
-                    ('{id}', '{uid}', '{name}', '{ext}', '{path}',
-                     '{thumbnail}', '{size}', '{width}', '{height}')
+                    ("{id}", "{uid}", "{name}", "{ext}", "{path}",
+                     "{thumbnail}", "{size}", "{width}", "{height}")
                 """.format(**data))
         else:
             logger.info('%s is already exists' % (data['uid']))
     except sqlite3.Error as e:
         logger.warning('Error: ', e.args[0])
-        raise e
+        logger.info('😂  DEBUG:: %s' % (data['path']))
     conn.commit()
     cursor.close()
     conn.close()
@@ -137,9 +137,9 @@ def createRoute(rootpath, fullpath):
     for i in range(len(data)):
         dirs.update({'dir_%d' % (i + 1): str(data[i])})
     keys = dirs.keys()
-    dir_query = list(map(lambda item: '\'{%s}\'' % (item), keys))
+    dir_query = list(map(lambda item: '\"{%s}\"' % (item), keys))
     try:
-        cursor.execute("SELECT 1 FROM routes WHERE id = '%s'" % (dirs['id']))
+        cursor.execute('SELECT 1 FROM routes WHERE id = "%s"' % (dirs['id']))
         result = cursor.fetchone()
         if result is None:
             query = """
@@ -153,7 +153,7 @@ def createRoute(rootpath, fullpath):
             logger.info('[routes]: %s is already exists' % (dirs['id']))
     except sqlite3.Error as e:
         logger.warning('Error: ', e.args[0])
-        raise e
+        logger.info('😂  DEBUG:: %s' % (fullpath))
     conn.commit()
     cursor.close()
     conn.close()
