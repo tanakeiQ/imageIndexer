@@ -21,6 +21,16 @@
                 color: #675b5b;
                 cursor: pointer;
             }
+            .nav-bar {
+                position: fixed;
+                right: 0;
+                bottom: 0;
+                margin-right: 30px;
+                margin-bottom: 15px;
+            }
+            .nav-bar li {
+                list-style: none;
+            }
             @import url(https://fonts.googleapis.com/css?family=Roboto:400,500,300,700);
             body {
                 background: -webkit-linear-gradient(left, #25c481, #25b7c4);
@@ -78,6 +88,11 @@
     </head>
     <body>
         %include
+        <div class="nav-bar">
+            <li><a href="/"><i class="ion ion-lg ion-home"></i></a></li>
+            <li><a href="/routes"><i class="ion ion-lg ion-folder"></i></a></li>
+            <li><a href="/files"><i class="ion ion-lg ion-images"></i></a></li>
+        </div>
     </body>
     <script crossorigin="anonymous" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" src="http://code.jquery.com/jquery-3.3.1.min.js" ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>

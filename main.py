@@ -17,6 +17,8 @@ import atexit
 import json
 import hashlib
 import re
+import ast
+import configparser
 import apimodels
 from log import *
 from distutils.spawn import find_executable
@@ -26,35 +28,36 @@ from joblib import Parallel, delayed
 # meta resources
 filemap = []
 global timer
+config = configparser.ConfigParser()
+config.read('config/batch.ini')
 
 # ImageMagick
 image_magick_path = find_executable('convert')
 
 # Target resources
 # image resources directory
-input_dir = '%s/debug/resources/' % (os.getcwd())
+input_dir = config['batch']['input_dir']
 # input_dir = '%s/debug/resources/' % (os.getcwd())
 # output file extension(don't forget dor(.))
-output_ext = 'png'
+output_ext = config['batch']['output_ext']
 # output thumbnail directory
-output_thumb_dir = '%s/debug/output/thumb' % (os.getcwd())
+output_thumb_dir = config['batch']['output_thumb_dir']
 # If applied script into symbolic link, set `True`
-isEnableSym = False
+isEnableSym = config['batch'].getboolean('isEnableSym')
 # Is customize script, modify avairable file format.
-avairable_formats = ['ai', 'eps', 'psd', 'png',
-                     'jpg', 'jpeg', 'bmp', 'ico', 'ttf', 'pdf']
+avairable_formats = ast.literal_eval(config['batch']['avairable_formats'])
 
 ignorefiles = [r'^\..*']
 
 # Convert General Image
 # thumbnail width
-width = 300
+width = config['batch'].getint('width')
 # thumbnail height
-height = 300
+height = config['batch'].getint('height')
 # thumbnail quality
-quality = 80
+quality = config['batch'].getint('quality')
 # thumbnail density
-density = 300
+density = config['batch'].getint('density')
 
 cmd_common_output = ' "%s/%s"'
 cmd_common = '%s "%s" -resize %dx%d -quality %d %s'
@@ -63,18 +66,12 @@ cmd_common = '%s "%s" -resize %dx%d -quality %d %s'
 cmd_layer = '%s "%s[0]" -density %d -resize %dx%d -quality %d -colorspace CMYK %s'
 
 # Convert Extension for Font
-font_pointsize = 100
-font_label = '''
-abcdefghijklmnopqrstuvwxyz
-ABCDEFGHIJKLM
-NOPQRSTUVWXYZ
-これはひらがな
-コレハカタカナ
-此れは漢字'''
+font_pointsize = config['batch'].getint('font_pointsize')
+font_label = config['batch']['font_label']
 cmd_font = '%s -font "%s" -pointsize %s label:"%s" -resize %dx%d -quality %d %s'
 
 # Route Map Settings
-routeMapDepth = 10
+routeMapDepth = config['batch'].getint('routeMapDepth')
 
 
 def md5(fname):
@@ -196,5 +193,9 @@ if __name__ == '__main__':
         apimodels.initRouteIndexes()
         rSearch(input_dir)
         logger.info('--- file count = %s' % (len(filemap)))
-        Parallel(n_jobs=-1)([delayed(convert)(filemap[idx]['filepath'],
-                                              filemap[idx]['filename']) for idx in range(len(filemap))])
+        Parallel(n_jobs=-1)([
+            delayed(convert)(
+                filemap[idx]['filepath'],
+                filemap[idx]['filename']
+            ) for idx in range(len(filemap))
+        ])

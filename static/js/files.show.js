@@ -4,7 +4,9 @@ function resizeContent() {
 };
 
 $(window).on("load resize ", function() {
-  var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
+  let scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
   $('.tbl-header').css({'padding-right':scrollWidth});
+  let h = $('.title-header').height();
+  $('a#back-btn').css({'line-height': h + 'px'});
   resizeContent();
 }).resize();

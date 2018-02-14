@@ -68,11 +68,21 @@
 		button.copy-clipboard {
 			width: 30%;
 		}
+        .nav-bar {
+            display: none;
+        }
     </style>
-    <h5 class="center">
-        path: '{{route['path']}}'<br>
-        <span style="color: #443e3b;">{{len(indexes)}} 件</span>
-    </h5>
+    <div class="row title-header">
+        <div class="columns offset-by-two one">
+            <a href="/files" id="back-btn" style="font-size: 32px;"><i class="ion ion-arrow-left-a"></i></a>
+        </div>
+        <div class="columns six">
+            <h5 class="center">
+                path: '{{route['path']}}'<br>
+                <span style="color: #443e3b;">{{len(indexes)}} 件</span>
+            </h5>
+        </div>
+    </div>
     <div class="tbl-header">
         <table border="0" cellpadding="0" cellspacing="0">
             <thead>
