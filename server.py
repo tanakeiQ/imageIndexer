@@ -12,10 +12,14 @@ from app.controller.api import *
 app = bottle.default_app()
 app.config.load_config([
     'config/resource.ini',
-    'config/server.ini'
+    'config/server.ini',
+    'config/batch.ini'
 ])
 
-print(app.config)
+
+@get('/')
+def index():
+    return template('index', {'configs': app.config})
 
 
 @get('/routes')
