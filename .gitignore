@@ -104,3 +104,9 @@ debug
 .DS_Store
 *.sublime-workspace
 *.db
+
+config/batch\.ini
+
+config/resource\.ini
+
+config/server\.ini
