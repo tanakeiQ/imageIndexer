@@ -15,7 +15,7 @@ class Index:
         cursor = conn.cursor()
         try:
             cursor.execute("""
-				SELECT i.* FROM routes AS r
+				SELECT i.*, replace(i.path, "/", "\\") as path_win FROM routes AS r
                     INNER JOIN route_indexes AS ri
                     ON ri.route_id = r.id
                     INNER JOIN indexes AS i
