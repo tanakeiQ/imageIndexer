@@ -18,14 +18,14 @@ class RouteIndex:
         cursor = conn.cursor()
         try:
             cursor.execute("""
-                SELECT %s FROM routes WHERE ID = '%s'
+                SELECT %s FROM routes WHERE ID = "%s"
                 """ % (','.join(self.select_dir_names), id))
             route = cursor.fetchone()
             if not route == None:
-                path = '/'.join(filter(lambda item: item is not None, route))
+                path = '/'.join(filter(lambda item: item is not None and len(item) > 0, route))
                 print(path)
                 cursor.execute("""
-                   SELECT id FROM indexes WHERE path LIKE '%s'
+                   SELECT id FROM indexes WHERE path LIKE "%s"
                    """ % (path + '%'))
                 indexes = cursor.fetchall()
                 for index in indexes:
@@ -33,7 +33,7 @@ class RouteIndex:
                         INSERT INTO route_indexes
                             (route_id, index_id)
                         VALUES
-                            ('%s', '%s')
+                            ("%s", "%s")
                         """ % (id, index['id']))
         except sqlite3.Error as e:
             logger.info('Error: ', e.args[0])
@@ -47,7 +47,7 @@ class RouteIndex:
         cursor = conn.cursor()
         try:
             cursor.execute("""
-                DELETE FROM route_indexes WHERE route_id = '%s'
+                DELETE FROM route_indexes WHERE route_id = "%s"
                 """ % (id))
         except sqlite3.Error as e:
             logger.info('Error: ', e.args[0])
