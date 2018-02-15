@@ -72,9 +72,8 @@ $ python main.py
 $ pipenv run python server.py
 ```
 
-# Feature
-- Check resources by auto generated HTML.
-- Compare images diff by hash.
+# Issues
+https://github.com/tanakeiQ/imageIndexer/issues
 
 # Comment
 I am bad both English and Python😢.
