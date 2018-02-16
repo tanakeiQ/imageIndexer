@@ -6,6 +6,7 @@
     .directory {
         margin-top: 15px;
         padding-top: 15px;
+            width: calc(33.3333333333333% - 30px);
     }
     .directory:nth-child(3n+1) {
         margin-left: 0;
@@ -51,25 +52,27 @@
     <h5 class="center">
         ディレクトリを選択すると、ディレクトリ内の画像一覧が表示されます
     </h5>
-    <div class="row">
-        % for route in routes.keys():
+    <div class="row directory-wrapper">
+            % for route in routes.keys():
             % if len(routes[route]) > 0:
-                <div class="four columns directory">
+                <div class="directory">
                     <div class="thumbnails">
                         <a href="/files/{{routes[route][0]['id']}}">
                             % for index in routes[route]:
-                                <img alt="" src="/static/thumb/{{index['thumbnail']}}">
+                            <img alt="" src="/static/thumb/{{index['thumbnail']}}">
                             % end
                         </a>
                     </div>
                     <div class="description">
                         <div class="memo">
-                            <input disabled="disabled" type="text" data-id="{{routes[route][0]['id']}}" value="{{routes[route][0]['description']}}"/>
+                            <input data-id="{{routes[route][0]['id']}}" disabled="disabled" type="text" value="{{routes[route][0]['description']}}"/>
                             <span class="edit-description active">
-                                <i class="ion-edit ion"></i>
+                                <i class="ion-edit ion">
+                                </i>
                             </span>
                             <span class="edited-description disactive">
-                                <i class="ion-checkmark ion"></i>
+                                <i class="ion-checkmark ion">
+                                </i>
                             </span>
                         </div>
                         <p class="path">

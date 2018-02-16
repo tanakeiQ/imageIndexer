@@ -74,31 +74,52 @@
             section{
                 margin: 50px;
             }
-
-            ::-webkit-scrollbar {
-                width: 6px;
-            } 
-            ::-webkit-scrollbar-track {
-                -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
-            } 
-            ::-webkit-scrollbar-thumb {
-                -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+            li {
+                list-style: none;
             }
         </style>
+        <link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.wookmark/2.1.2/css/main.min.css" integrity="sha256-WvO2mkFS3pHQrVbp3UVMqYvouzjg9qI/1Gpv8mvCF3w=" rel="stylesheet"/>
     </head>
     <body>
         %include
         <div class="nav-bar">
-            <li><a href="/"><i class="ion ion-lg ion-home"></i></a></li>
-            <li><a href="/routes"><i class="ion ion-lg ion-folder"></i></a></li>
-            <li><a href="/files"><i class="ion ion-lg ion-images"></i></a></li>
+            <li>
+                <a href="/">
+                    <i class="ion ion-lg ion-home">
+                    </i>
+                </a>
+            </li>
+            <li>
+                <a href="/routes">
+                    <i class="ion ion-lg ion-folder">
+                    </i>
+                </a>
+            </li>
+            <li>
+                <a href="/files">
+                    <i class="ion ion-lg ion-images">
+                    </i>
+                </a>
+            </li>
         </div>
     </body>
-    <script crossorigin="anonymous" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" src="http://code.jquery.com/jquery-3.3.1.min.js" ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" src="http://code.jquery.com/jquery-3.3.1.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.2.1/masonry.pkgd.min.js" integrity="sha256-D3o+8eRzMxa6mD+EDWrS5rMcEaAhISmCnRLdQ8kS2t4=" crossorigin="anonymous">
+    </script>
     <script>
-        $(function () {
+        $(function() {
             var clipboard = new Clipboard('.copy-clipboard');
+
+            $('.directory-wrapper').masonry({
+                percentPosition: true,
+                columnWidth: 50,
+                itemSelector: '.directory',
+                transitionDuration: '.5s',
+                resize: true
+            });
         });
     </script>
 </html>
