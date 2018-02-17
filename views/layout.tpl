@@ -109,18 +109,37 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.2.1/masonry.pkgd.min.js" integrity="sha256-D3o+8eRzMxa6mD+EDWrS5rMcEaAhISmCnRLdQ8kS2t4=" crossorigin="anonymous">
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js" integrity="sha256-rXnOfjTRp4iAm7hTAxEz3irkXzwZrElV2uRsdJAYjC4=" crossorigin="anonymous"></script>
     <script>
-        $(function() {
-            var clipboard = new Clipboard('.copy-clipboard');
+    $(function() {
+        $("img.lazy").lazyload({
+            load : function(elements_left, settings) {
+                masonry_update();
+            }
+        });
+        var clipboard = new Clipboard('.copy-clipboard');
+        var container = $('.directory-wrapper');
 
-            $('.directory-wrapper').masonry({
+        function masonry_update() {
+            container.masonry({
                 percentPosition: true,
                 columnWidth: 50,
                 itemSelector: '.directory',
                 transitionDuration: '.5s',
-                resize: true
             });
-        });
+         }
+        
+        var timer = false;
+        $(window).resize(function(){
+            ww = $(window).width();
+            if (timer !== false) {
+                clearTimeout(timer);
+            }
+            timer = setTimeout(function() {
+                masonry_update();
+            }, 200);
+        });  
+    });
     </script>
 </html>
 % if defined('script'):
